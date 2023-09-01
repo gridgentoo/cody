@@ -478,8 +478,8 @@ importers:
         specifier: ^10.2.0
         version: 10.2.0
       ovsx:
-        specifier: ^0.8.2
-        version: 0.8.2
+        specifier: ^0.8.3
+        version: 0.8.3
       path-browserify:
         specifier: ^1.0.1
         version: 1.0.1
@@ -13323,8 +13323,8 @@ packages:
   /outdent@0.8.0:
     resolution: {integrity: sha512-KiOAIsdpUTcAXuykya5fnVVT+/5uS0Q1mrkRHcF89tpieSmY33O/tmc54CqwA+bfhbtEfZUNLHaPUiB9X3jt1A==}
 
-  /ovsx@0.8.2:
-    resolution: {integrity: sha512-btDXZorXlmwN9+9Un3khrVygCXmhwbrtg8gifNXw92rZPXcRBAiLG/L09Kb6srhGEratsFt42AktfD8t9XhzoA==}
+  /ovsx@0.8.3:
+    resolution: {integrity: sha512-LG7wTzy4eYV/KolFeO4AwWPzQSARvCONzd5oHQlNvYOlji2r/zjbdK8pyObZN84uZlk6rQBWrJrAdJfh/SX0Hg==}
     engines: {node: '>= 14'}
     hasBin: true
     dependencies:
