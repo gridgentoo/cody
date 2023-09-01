@@ -1028,7 +1028,7 @@
     "@vscode/test-web": "^0.0.44",
     "@vscode/vsce": "^2.19.0",
     "cody-icons-font": "workspace:^",
-    "concurrently": "^8.2.0",
+    "concurrently": "^8.2.1",
     "dedent": "^0.7.0",
     "envalid": "^7.3.1",
     "express": "^4.18.2",
