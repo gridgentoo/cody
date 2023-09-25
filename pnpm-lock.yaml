@@ -454,8 +454,8 @@ importers:
         specifier: ^3.7.3
         version: 3.7.3
       '@playwright/test':
-        specifier: ^1.33.0
-        version: 1.33.0
+        specifier: ^1.38.1
+        version: 1.38.1
       '@types/axios':
         specifier: ^0.14.0
         version: 0.14.0
@@ -532,8 +532,8 @@ importers:
         specifier: ^1.0.1
         version: 1.0.1
       playwright:
-        specifier: ^1.33.0
-        version: 1.33.0
+        specifier: ^1.38.1
+        version: 1.38.1
       progress:
         specifier: ^2.0.3
         version: 2.0.3
@@ -4539,15 +4539,12 @@ packages:
       typescript: 5.1.6
     dev: true
 
-  /@playwright/test@1.33.0:
-    resolution: {integrity: sha512-YunBa2mE7Hq4CfPkGzQRK916a4tuZoVx/EpLjeWlTVOnD4S2+fdaQZE0LJkbfhN5FTSKNLdcl7MoT5XB37bTkg==}
-    engines: {node: '>=14'}
+  /@playwright/test@1.38.1:
+    resolution: {integrity: sha512-NqRp8XMwj3AK+zKLbZShl0r/9wKgzqI/527bkptKXomtuo+dOjU9NdMASQ8DNC9z9zLOMbG53T4eihYr3XR+BQ==}
+    engines: {node: '>=16'}
     hasBin: true
     dependencies:
-      '@types/node': 20.5.7
-      playwright-core: 1.33.0
-    optionalDependencies:
-      fsevents: 2.3.2
+      playwright: 1.38.1
     dev: true
 
   /@protobufjs/aspromise@1.1.2:
@@ -6902,7 +6899,7 @@ packages:
       koa-mount: 4.0.0
       koa-static: 5.0.0
       minimist: 1.2.8
-      playwright: 1.36.1
+      playwright: 1.38.1
       tar-fs: 2.1.1
       vscode-uri: 3.0.7
     transitivePeerDependencies:
@@ -14443,32 +14440,20 @@ packages:
       - supports-color
     dev: true
 
-  /playwright-core@1.33.0:
-    resolution: {integrity: sha512-aizyPE1Cj62vAECdph1iaMILpT0WUDCq3E6rW6I+dleSbBoGbktvJtzS6VHkZ4DKNEOG9qJpiom/ZxO+S15LAw==}
-    engines: {node: '>=14'}
-    hasBin: true
-    dev: true
-
-  /playwright-core@1.36.1:
-    resolution: {integrity: sha512-7+tmPuMcEW4xeCL9cp9KxmYpQYHKkyjwoXRnoeTowaeNat8PoBMk/HwCYhqkH2fRkshfKEOiVus/IhID2Pg8kg==}
+  /playwright-core@1.38.1:
+    resolution: {integrity: sha512-tQqNFUKa3OfMf4b2jQ7aGLB8o9bS3bOY0yMEtldtC2+spf8QXG9zvXLTXUeRsoNuxEYMgLYR+NXfAa1rjKRcrg==}
     engines: {node: '>=16'}
     hasBin: true
     dev: true
 
-  /playwright@1.33.0:
-    resolution: {integrity: sha512-+zzU3V2TslRX2ETBRgQKsKytYBkJeLZ2xzUj4JohnZnxQnivoUvOvNbRBYWSYykQTO0Y4zb8NwZTYFUO+EpPBQ==}
-    engines: {node: '>=14'}
-    hasBin: true
-    dependencies:
-      playwright-core: 1.33.0
-    dev: true
-
-  /playwright@1.36.1:
-    resolution: {integrity: sha512-2ZqHpD0U0COKR8bqR3W5IkyIAAM0mT9FgGJB9xWCI1qAUkqLxJskA1ueeQOTH2Qfz3+oxdwwf2EzdOX+RkZmmQ==}
+  /playwright@1.38.1:
+    resolution: {integrity: sha512-oRMSJmZrOu1FP5iu3UrCx8JEFRIMxLDM0c/3o4bpzU5Tz97BypefWf7TuTNPWeCe279TPal5RtPPZ+9lW/Qkow==}
     engines: {node: '>=16'}
     hasBin: true
     dependencies:
-      playwright-core: 1.36.1
+      playwright-core: 1.38.1
+    optionalDependencies:
+      fsevents: 2.3.2
     dev: true
 
   /please-upgrade-node@3.2.0:
