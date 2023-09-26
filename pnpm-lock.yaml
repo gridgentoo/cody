@@ -223,8 +223,8 @@ importers:
   e2e:
     dependencies:
       '@anthropic-ai/sdk':
-        specifier: ^0.5.8
-        version: 0.5.8
+        specifier: ^0.6.2
+        version: 0.6.2
       '@azure/openai':
         specifier: 1.0.0-beta.5
         version: 1.0.0-beta.5
@@ -360,8 +360,8 @@ importers:
   vscode:
     dependencies:
       '@anthropic-ai/sdk':
-        specifier: ^0.4.2
-        version: 0.4.3
+        specifier: ^0.6.2
+        version: 0.6.2
       '@mdi/js':
         specifier: ^7.2.96
         version: 7.2.96
@@ -583,8 +583,8 @@ packages:
       - encoding
     dev: false
 
-  /@anthropic-ai/sdk@0.5.8:
-    resolution: {integrity: sha512-iHenjcE2Q/az6VZiP1DueOSvKNRmxsly6Rx2yjJBoy7OBYVFGVjEdgs2mPQHtTX0ibKAR7tPq6F6MQbKDPWcKg==}
+  /@anthropic-ai/sdk@0.6.2:
+    resolution: {integrity: sha512-fB9PUj9RFT+XjkL+E9Ol864ZIJi+1P8WnbHspN3N3/GK2uSzjd0cbVIKTGgf4v3N8MwaQu+UWnU7C4BG/fap/g==}
     dependencies:
       '@types/node': 18.17.1
       '@types/node-fetch': 2.6.4
@@ -6010,7 +6010,7 @@ packages:
     resolution: {integrity: sha512-ALYone6pm6QmwZoAgeyNksccT9Q4AWZQ6PvfwR37GT6r6FWUPguq6sUmNGSMV2Wr761oQoBxwGGa6DR5o1DC9g==}
     dependencies:
       '@types/connect': 3.4.32
-      '@types/node': 20.5.7
+      '@types/node': 20.4.0
 
   /@types/btoa-lite@1.0.0:
     resolution: {integrity: sha512-wJsiX1tosQ+J5+bY5LrSahHxr2wT+uME5UDwdN1kg4frt40euqA+wzECkmq4t5QbveHiJepfdThgQrPw6KiSlg==}
@@ -6107,7 +6107,7 @@ packages:
   /@types/express-serve-static-core@4.17.35:
     resolution: {integrity: sha512-wALWQwrgiB2AWTT91CB62b6Yt0sNHpznUXeZEcnPU3DRdlDIz74x8Qg1UUYKSVFi+va5vKOLYRBI1bRKiLLKIg==}
     dependencies:
-      '@types/node': 20.5.7
+      '@types/node': 20.4.0
       '@types/qs': 6.9.6
       '@types/range-parser': 1.2.2
       '@types/send': 0.17.1
@@ -6423,7 +6423,7 @@ packages:
     resolution: {integrity: sha512-z5xyF6uh8CbjAu9760KDKsH2FcDxZ2tFCsA4HIMWE6IkiYMXfVoa+4f9KX+FN0ZLsaMw1WNG2ETLA6N+/YA+cg==}
     dependencies:
       '@types/mime': 2.0.0
-      '@types/node': 20.5.7
+      '@types/node': 20.4.0
 
   /@types/stream-chain@2.0.1:
     resolution: {integrity: sha512-D+Id9XpcBpampptkegH7WMsEk6fUdf9LlCIX7UhLydILsqDin4L0QT7ryJR0oycwC7OqohIzdfcMHVZ34ezNGg==}
