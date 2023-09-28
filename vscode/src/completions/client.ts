@@ -116,6 +116,8 @@ export function createClient(
                     const iterator = createSSEIterator(response.body as any as AsyncIterableIterator<BufferSource>)
 
                     for await (const chunk of iterator) {
+                        // NEXT: why doesn't this include logprobs?
+                        console.log('# chunk.data', chunk.data)
                         if (chunk.event === 'completion') {
                             lastResponse = JSON.parse(chunk.data) as CompletionResponse
                             onPartialResponse?.(lastResponse)
@@ -127,7 +129,7 @@ export function createClient(
                     }
                     log?.onComplete(lastResponse)
 
-                    console.log('### lastResponse:', lastResponse)
+                    // console.log('### lastResponse:', lastResponse)
 
                     return lastResponse
                 } catch (error) {
