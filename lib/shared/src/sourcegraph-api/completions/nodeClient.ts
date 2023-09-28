@@ -11,6 +11,8 @@ import { CompletionCallbacks, CompletionParameters } from './types'
 
 export class SourcegraphNodeCompletionsClient extends SourcegraphCompletionsClient {
     public stream(params: CompletionParameters, cb: CompletionCallbacks): () => void {
+        console.log('#### SourcegraphNodeCompletionsClient.stream')
+
         const log = this.logger?.startCompletion(params)
 
         const abortController = new AbortController()

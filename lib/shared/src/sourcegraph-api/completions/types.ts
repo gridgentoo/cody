@@ -21,6 +21,15 @@ export interface Message {
 export interface CompletionResponse {
     completion: string
     stopReason: string
+    logprobs?: Logprobs
+}
+
+export interface Logprobs {
+    // TODO: change to camelCase
+    tokens: string[]
+    token_logprobs: number[]
+    top_logprobs: { [key: string]: number }[]
+    text_offset: number[]
 }
 
 export interface CompletionParameters {
@@ -35,7 +44,7 @@ export interface CompletionParameters {
 }
 
 export interface CompletionCallbacks {
-    onChange: (text: string) => void
+    onChange: (text: string, logprobs?: Logprobs) => void
     /**
      * Only called when a stream successfully completes. If an error is
      * encountered, this is never called.

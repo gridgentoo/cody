@@ -144,6 +144,7 @@ export class UnstableFireworksProvider extends Provider {
         snippets: ContextSnippet[],
         tracer?: CompletionProviderTracer
     ): Promise<Completion[]> {
+        console.log('# Fireworks.generateComplemtions')
         const { multiline } = this.options
         const prompt = this.createPrompt(snippets)
 

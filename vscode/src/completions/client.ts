@@ -77,6 +77,8 @@ export function createClient(
                 signal,
             })
 
+            console.log('### createClient.complete > response:', url, enableStreaming, response)
+
             const traceId = response.headers.get('x-trace') ?? undefined
 
             // When rate-limiting occurs, the response is an error message
@@ -124,6 +126,8 @@ export function createClient(
                         throw new TracedError('No completion response received', traceId)
                     }
                     log?.onComplete(lastResponse)
+
+                    console.log('### lastResponse:', lastResponse)
 
                     return lastResponse
                 } catch (error) {

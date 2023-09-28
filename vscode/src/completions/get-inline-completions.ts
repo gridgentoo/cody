@@ -153,6 +153,7 @@ export async function getInlineCompletions(params: InlineCompletionsParams): Pro
 }
 
 async function doGetInlineCompletions(params: InlineCompletionsParams): Promise<InlineCompletionsResult | null> {
+    console.log('# doGetInlineCompletion', params)
     const {
         document,
         position,
