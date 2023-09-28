@@ -75,7 +75,6 @@ async function unzipBfg(zipFile: string, destination: string): Promise<void> {
 }
 
 async function downloadBfgBinary(url: string, destination: string): Promise<void> {
-    console.log({ url, destination })
     const response = await axios({
         url,
         method: 'GET',

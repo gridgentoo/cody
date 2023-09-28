@@ -23,7 +23,6 @@ const shouldCreateGitDir = !fs.existsSync(gitdir)
 
 describe('BfgContextFetcher', () => {
     const tmpDir = fs.mkdtempSync(path.join(os.tmpdir(), 'bfg-'))
-    console.log({ tmpDir })
     beforeAll(() => {
         process.env.CODY_TESTING = 'true'
         initializeVscodeExtension()
