@@ -1,17 +1,24 @@
 import * as vscode from 'vscode'
 
+import { MessageHandler } from '../../jsonrpc/jsonrpc'
 import { logDebug } from '../../log'
 import { ContextSnippet } from '../types'
 
 import { GetContextResult } from './context'
 
-export interface GraphContextFetcher {
+export interface GraphContextFetcher extends vscode.Disposable {
     getContextAtPosition(
         document: vscode.TextDocument,
         position: vscode.Position,
         maxChars: number,
         contextRange?: vscode.Range
     ): Promise<ContextSnippet[]>
+    messageHandler?: MessageHandler
+}
+
+export const emptyGraphContextFetcher: GraphContextFetcher = {
+    getContextAtPosition: () => Promise.resolve([]),
+    dispose: () => {},
 }
 
 interface Options {

@@ -4,7 +4,9 @@ import { Configuration } from '@sourcegraph/cody-shared/src/configuration'
 import { FeatureFlag, FeatureFlagProvider } from '@sourcegraph/cody-shared/src/experimentation/FeatureFlagProvider'
 
 import { ContextProvider } from '../chat/ContextProvider'
+import { createBfgContextFetcher } from '../graph/bfg/bfg-context-fetcher'
 import { logDebug } from '../log'
+import { gitDirectoryUri } from '../repository/repositoryHelpers'
 import type { AuthProvider } from '../services/AuthProvider'
 import { CodyStatusBar } from '../services/StatusBar'
 
@@ -24,14 +26,10 @@ interface InlineCompletionItemProviderArgs {
     authProvider: AuthProvider
 }
 
-export async function createInlineCompletionItemProvider({
-    config,
-    client,
-    statusBar,
-    contextProvider,
-    featureFlagProvider,
-    authProvider,
-}: InlineCompletionItemProviderArgs): Promise<vscode.Disposable> {
+export async function createInlineCompletionItemProvider(
+    { config, client, statusBar, contextProvider, featureFlagProvider, authProvider }: InlineCompletionItemProviderArgs,
+    context: vscode.ExtensionContext
+): Promise<vscode.Disposable> {
     if (!authProvider.getAuthStatus().isLoggedIn) {
         logDebug('CodyCompletionProvider:notSignedIn', 'You are not signed in.')
 
@@ -51,24 +49,31 @@ export async function createInlineCompletionItemProvider({
 
     const disposables: vscode.Disposable[] = []
 
-    const [providerConfig, graphContextFlag, completeSuggestWidgetSelectionFlag] = await Promise.all([
+    const [providerConfig, lspGraphContextFlag, completeSuggestWidgetSelectionFlag] = await Promise.all([
         createProviderConfig(config, client, featureFlagProvider, authProvider.getAuthStatus().configOverwrites),
         featureFlagProvider?.evaluateFeatureFlag(FeatureFlag.CodyAutocompleteGraphContext),
         featureFlagProvider?.evaluateFeatureFlag(FeatureFlag.CodyAutocompleteCompleteSuggestWidgetSelection),
     ])
     if (providerConfig) {
         const history = new VSCodeDocumentHistory()
-        const sectionObserver =
-            config.autocompleteExperimentalGraphContext || graphContextFlag
-                ? GraphSectionObserver.createInstance()
-                : undefined
+        const isLspGraphContextEnabled =
+            config.autocompleteExperimentalGraphContext === 'lsp' ||
+            // For backwards compatibility, treat true value as 'lsp'
+            config.autocompleteExperimentalGraphContext === true ||
+            lspGraphContextFlag
+        const graphContextFetcher = isLspGraphContextEnabled
+            ? GraphSectionObserver.createInstance()
+            : config.autocompleteExperimentalGraphContext === 'bfg'
+            ? await createBfgContextFetcher(context, gitDirectoryUri)
+            : undefined
 
         const completionsProvider = new InlineCompletionItemProvider({
             providerConfig,
             history,
             statusBar,
             getCodebaseContext: () => contextProvider.context,
-            graphContextFetcher: sectionObserver,
+            graphContextFetcher,
+
             completeSuggestWidgetSelection:
                 config.autocompleteExperimentalCompleteSuggestWidgetSelection || completeSuggestWidgetSelectionFlag,
             featureFlagProvider,
@@ -90,8 +95,8 @@ export async function createInlineCompletionItemProvider({
             ),
             registerAutocompleteTraceView(completionsProvider)
         )
-        if (sectionObserver) {
-            disposables.push(sectionObserver)
+        if (graphContextFetcher) {
+            disposables.push(graphContextFetcher)
         }
     } else if (config.isRunningInsideAgent) {
         throw new Error(

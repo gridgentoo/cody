@@ -13,8 +13,8 @@ import { AgentTextDocument } from './AgentTextDocument'
 import { newTextEditor } from './AgentTextEditor'
 import { AgentWorkspaceDocuments } from './AgentWorkspaceDocuments'
 import { AgentEditor } from './editor'
-import { MessageHandler } from './jsonrpc'
-import { AutocompleteItem, ExtensionConfiguration, RecipeInfo } from './protocol'
+import { MessageHandler } from './jsonrpc-alias'
+import { AutocompleteItem, ExtensionConfiguration, RecipeInfo } from './protocol-alias'
 import * as vscode_shim from './vscode-shim'
 
 const secretStorage = new Map<string, string>()
@@ -117,14 +117,14 @@ export class Agent extends MessageHandler {
             this.workspace.setActiveTextEditor(newTextEditor(this.workspace.agentTextDocument(document)))
         })
         this.registerNotification('textDocument/didOpen', document => {
-            this.workspace.setDocument(document)
+            this.workspace.addDocument(document)
             const textDocument = this.workspace.agentTextDocument(document)
             vscode_shim.onDidOpenTextDocument.fire(textDocument)
             this.workspace.setActiveTextEditor(newTextEditor(textDocument))
         })
         this.registerNotification('textDocument/didChange', document => {
             const textDocument = this.workspace.agentTextDocument(document)
-            this.workspace.setDocument(document)
+            this.workspace.addDocument(document)
             this.workspace.setActiveTextEditor(newTextEditor(textDocument))
             vscode_shim.onDidChangeTextDocument.fire({
                 document: textDocument,

@@ -9,7 +9,7 @@ import {
 
 import { Agent } from './agent'
 import { DocumentOffsets } from './offsets'
-import { TextDocument } from './protocol'
+import { TextDocument } from './protocol-alias'
 import * as vscode_shim from './vscode-shim'
 
 export class AgentEditor implements Editor {

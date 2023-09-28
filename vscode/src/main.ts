@@ -467,14 +467,17 @@ const register = async (
             completionsProvider.dispose()
         }
 
-        completionsProvider = await createInlineCompletionItemProvider({
-            config,
-            client: codeCompletionsClient,
-            statusBar,
-            contextProvider,
-            featureFlagProvider,
-            authProvider,
-        })
+        completionsProvider = await createInlineCompletionItemProvider(
+            {
+                config,
+                client: codeCompletionsClient,
+                statusBar,
+                contextProvider,
+                featureFlagProvider,
+                authProvider,
+            },
+            context
+        )
     }
     // Reload autocomplete if either the configuration changes or the auth status is updated
     vscode.workspace.onDidChangeConfiguration(event => {

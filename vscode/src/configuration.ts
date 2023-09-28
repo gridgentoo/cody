@@ -73,9 +73,9 @@ export function getConfiguration(config: ConfigGetter = vscode.workspace.getConf
             CONFIG_KEY.autocompleteExperimentalSyntacticPostProcessing,
             true
         ),
-        autocompleteExperimentalGraphContext: config.get<boolean>(
+        autocompleteExperimentalGraphContext: config.get<'lsp' | 'bfg' | 'none'>(
             CONFIG_KEY.autocompleteExperimentalGraphContext,
-            false
+            'none'
         ),
 
         /**

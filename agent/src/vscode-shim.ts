@@ -28,7 +28,7 @@ import {
 
 import type { Agent } from './agent'
 import { AgentTabGroups } from './AgentTabGroups'
-import type { ExtensionConfiguration } from './protocol'
+import type { ExtensionConfiguration } from './protocol-alias'
 
 export {
     emptyEvent,
@@ -95,6 +95,8 @@ export function isAuthenticationChange(newConfig: ExtensionConfiguration): boole
     )
 }
 
+export const customConfiguration: Record<string, any> = {}
+
 const configuration: vscode.WorkspaceConfiguration = {
     has(section) {
         return true
@@ -132,7 +134,7 @@ const configuration: vscode.WorkspaceConfiguration = {
             case 'cody.codebase':
                 return connectionConfig?.codebase
             default:
-                return defaultValue
+                return customConfiguration[section] ?? defaultValue
         }
     },
     update(section, value, configurationTarget, overrideInLanguage) {

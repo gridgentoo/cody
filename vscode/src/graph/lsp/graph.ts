@@ -5,8 +5,8 @@ import { HoverContext, PreciseContext } from '@sourcegraph/cody-shared/src/codeb
 import { dedupeWith, isDefined } from '@sourcegraph/cody-shared/src/common'
 import { ActiveTextEditorSelectionRange, Editor } from '@sourcegraph/cody-shared/src/editor'
 
-import { CustomAbortSignal } from '../completions/context/utils'
-import { logDebug } from '../log'
+import { CustomAbortSignal } from '../../completions/context/utils'
+import { logDebug } from '../../log'
 
 import { createLimiter } from './limiter'
 

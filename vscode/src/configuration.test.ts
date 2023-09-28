@@ -37,7 +37,7 @@ describe('getConfiguration', () => {
             autocompleteAdvancedAccessToken: null,
             autocompleteExperimentalCompleteSuggestWidgetSelection: false,
             autocompleteExperimentalSyntacticPostProcessing: true,
-            autocompleteExperimentalGraphContext: false,
+            autocompleteExperimentalGraphContext: 'none',
         })
     })
 
@@ -141,7 +141,7 @@ describe('getConfiguration', () => {
             autocompleteAdvancedAccessToken: 'foobar',
             autocompleteExperimentalCompleteSuggestWidgetSelection: false,
             autocompleteExperimentalSyntacticPostProcessing: true,
-            autocompleteExperimentalGraphContext: true,
+            autocompleteExperimentalGraphContext: 'lsp',
         })
     })
 })

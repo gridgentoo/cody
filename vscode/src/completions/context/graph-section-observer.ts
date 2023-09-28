@@ -9,8 +9,8 @@ import { dedupeWith, isDefined } from '@sourcegraph/cody-shared/src/common'
 import { isAbortError } from '@sourcegraph/cody-shared/src/sourcegraph-api/errors'
 import { isError } from '@sourcegraph/cody-shared/src/utils'
 
-import { getGraphContextFromRange as defaultGetGraphContextFromRange, locationKeyFn } from '../../graph/graph'
-import { getDocumentSections as defaultGetDocumentSections, DocumentSection } from '../../graph/sections'
+import { getGraphContextFromRange as defaultGetGraphContextFromRange, locationKeyFn } from '../../graph/lsp/graph'
+import { getDocumentSections as defaultGetDocumentSections, DocumentSection } from '../../graph/lsp/sections'
 import { logDebug, logError } from '../../log'
 import { ContextSnippet, SymbolContextSnippet } from '../types'
 import { createSubscriber } from '../utils'
@@ -52,7 +52,7 @@ export const registerDebugListener = debugSubscriber.subscribe.bind(debugSubscri
  * Each section will behave like a stale-while-revalidate cache in that it will serve the previous
  * context while it is still being revalidated.
  */
-export class GraphSectionObserver implements vscode.Disposable, GraphContextFetcher {
+export class GraphSectionObserver implements GraphContextFetcher {
     private disposables: vscode.Disposable[] = []
 
     // A map of all active documents that are being tracked. We rely on the LRU cache to evict

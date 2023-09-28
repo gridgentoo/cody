@@ -2,7 +2,7 @@ import { describe, expect, test } from 'vitest'
 import * as vscode from 'vscode'
 import { URI } from 'vscode-uri'
 
-import { Uri } from '../testutils/mocks'
+import { Uri } from '../../testutils/mocks'
 
 import {
     extractDefinitionContexts,
