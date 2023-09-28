@@ -19,7 +19,7 @@ import * as vscode_shim from './vscode-shim'
 
 const secretStorage = new Map<string, string>()
 
-function initializeVscodeExtension(): void {
+export function initializeVscodeExtension(): void {
     activate({
         asAbsolutePath(relativePath) {
             return path.resolve(process.cwd(), relativePath)

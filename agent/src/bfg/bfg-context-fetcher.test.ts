@@ -7,10 +7,13 @@ import { afterAll, assert, beforeAll, describe, expect, it } from 'vitest'
 import * as vscode from 'vscode'
 
 import { createBfgContextFetcher } from '../../../vscode/src/graph/bfg/bfg-context-fetcher'
-import { Agent } from '../agent'
+import { Agent, initializeVscodeExtension } from '../agent'
 import * as vscode_shim from '../vscode-shim'
 
-const dir = path.join(process.cwd(), 'src', 'bfg', '__tests__', 'typescript')
+let dir = path.join(process.cwd(), 'agent', 'src', 'bfg', '__tests__', 'typescript')
+if (!fs.existsSync(dir)) {
+    dir = path.join(process.cwd(), 'src', 'bfg', '__tests__', 'typescript')
+}
 const bfgCratePath = process.env.BFG_CRATE_PATH
 const testFile = path.join('src', 'main.ts')
 const gitdir = path.join(dir, '.git')
@@ -18,6 +21,8 @@ const shouldCreateGitDir = !fs.existsSync(gitdir)
 
 describe('BfgContextFetcher', () => {
     beforeAll(() => {
+        process.env.CODY_TESTING = 'true'
+        initializeVscodeExtension()
         if (shouldCreateGitDir) {
             child_process.execSync('git init', { cwd: dir })
             child_process.execSync('git add .', { cwd: dir })

@@ -23,7 +23,12 @@ export async function createBfgContextFetcher(
     }
     const child = child_process.spawn(codyrpc, { stdio: 'pipe' })
     const bfg = new MessageHandler()
-    child.stderr.on('data', chunk => logDebug('BFG', chunk.toString()))
+    const isTesting = process.env.CODY_TESTING === 'true'
+    console.log({ isTesting })
+    child.stderr.on('data', chunk => {
+        if (isTesting) console.log(chunk.toString())
+        else logDebug('BFG:data', chunk.toString())
+    })
     child.on('exit', () => {
         bfg.die()
     })

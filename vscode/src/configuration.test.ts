@@ -103,7 +103,7 @@ describe('getConfiguration', () => {
                     case 'cody.autocomplete.experimental.syntacticPostProcessing':
                         return true
                     case 'cody.autocomplete.experimental.graphContext':
-                        return true
+                        return 'lsp'
                     case 'cody.advanced.agent.running':
                         return false
                     default:
