@@ -12,9 +12,13 @@ export async function createBfgContextFetcher(
     context: vscode.ExtensionContext,
     gitDirectoryUri: (uri: vscode.Uri) => vscode.Uri | undefined
 ): Promise<GraphContextFetcher> {
+    const isTesting = process.env.CODY_TESTING === 'true'
     logDebug('BFG', 'Creating BFG context fetcher')
     const codyrpc = await downloadBfg(context)
     if (!codyrpc) {
+        if (isTesting) {
+            throw new Error('BFG: failed to download binary during testing')
+        }
         logDebug(
             'BFG',
             'failed to download BFG binary. To fix this problem, set the "cody.experimental.bfg.path" configuration to the path of your BFG binary'
@@ -23,7 +27,6 @@ export async function createBfgContextFetcher(
     }
     const child = child_process.spawn(codyrpc, { stdio: 'pipe' })
     const bfg = new MessageHandler()
-    const isTesting = process.env.CODY_TESTING === 'true'
     console.log({ isTesting })
     child.stderr.on('data', chunk => {
         if (isTesting) console.log(chunk.toString())
@@ -65,7 +68,8 @@ export async function createBfgContextFetcher(
                 maxChars: 10_000, // maxChars || 0
                 contextRange,
             })
-            logDebug('BFG', 'graph symbols', responses.symbols)
+
+            logDebug('BFG', 'graph symbol count ' + responses.symbols.length)
 
             return [...responses.symbols, ...responses.files]
         },

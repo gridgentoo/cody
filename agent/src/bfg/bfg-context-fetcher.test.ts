@@ -1,5 +1,6 @@
 import * as child_process from 'child_process'
 import * as fs from 'fs'
+import * as os from 'os'
 import path from 'path'
 
 import * as rimraf from 'rimraf'
@@ -8,6 +9,7 @@ import * as vscode from 'vscode'
 
 import { createBfgContextFetcher } from '../../../vscode/src/graph/bfg/bfg-context-fetcher'
 import { Agent, initializeVscodeExtension } from '../agent'
+import { MessageHandler } from '../jsonrpc-alias'
 import * as vscode_shim from '../vscode-shim'
 
 let dir = path.join(process.cwd(), 'agent', 'src', 'bfg', '__tests__', 'typescript')
@@ -20,6 +22,8 @@ const gitdir = path.join(dir, '.git')
 const shouldCreateGitDir = !fs.existsSync(gitdir)
 
 describe('BfgContextFetcher', () => {
+    const tmpDir = fs.mkdtempSync(path.join(os.tmpdir(), 'bfg-'))
+    console.log({ tmpDir })
     beforeAll(() => {
         process.env.CODY_TESTING = 'true'
         initializeVscodeExtension()
@@ -36,10 +40,17 @@ describe('BfgContextFetcher', () => {
     afterAll(() => {
         if (shouldCreateGitDir) {
             rimraf.rimrafSync(gitdir)
+            // rimraf.rimrafSync(tmpDir)
         }
     })
 
     const agent = new Agent()
+
+    const debugHandler = new MessageHandler()
+    debugHandler.registerNotification('debug/message', params => console.log(`${params.channel}: ${params.message}`))
+    debugHandler.messageEncoder.pipe(agent.messageDecoder)
+    agent.messageEncoder.pipe(debugHandler.messageDecoder)
+
     const filePath = path.join(dir, testFile)
     const content = fs.readFileSync(filePath, 'utf8')
     const CURSOR = '/*CURSOR*/'
@@ -49,7 +60,10 @@ describe('BfgContextFetcher', () => {
             const bfgBinary = path.join(bfgCratePath, '..', '..', 'target', 'debug', 'bfg')
             vscode_shim.customConfiguration['cody.experimental.bfg.path'] = bfgBinary
         }
-        const bfg = await createBfgContextFetcher({} as any, () => gitdirUri)
+        const extensionContext: Partial<vscode.ExtensionContext> = {
+            globalStorageUri: vscode.Uri.from({ scheme: 'file', path: tmpDir }),
+        }
+        const bfg = await createBfgContextFetcher(extensionContext as vscode.ExtensionContext, () => gitdirUri)
         agent.workspace.addDocument({
             filePath,
             content: content.replace(CURSOR, ''),

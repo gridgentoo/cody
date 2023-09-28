@@ -1,9 +1,12 @@
+import * as fs from 'fs'
 import { promises as fspromises } from 'fs'
 import path from 'path'
 
+import axios from 'axios'
+import * as unzipper from 'unzipper'
 import * as vscode from 'vscode'
 
-import { downloadFile, fileExists } from '../../local-context/download-symf'
+import { fileExists, getOSArch } from '../../local-context/download-symf'
 import { logDebug } from '../../log'
 import { getOSArch } from '../../os'
 
@@ -19,11 +22,13 @@ export async function downloadBfg(context: vscode.ExtensionContext): Promise<str
 
     const osArch = getOSArch()
     if (!osArch) {
+        logDebug('bfg', `getOSArch returned nothing`)
         return null
     }
     const { platform, arch } = osArch
 
     const bfgContainingDir = path.join(context.globalStorageUri.fsPath, 'bfg')
+    await fspromises.mkdir(bfgContainingDir, { recursive: true })
     const bfgFilename = `bfg-${bfgVersion}-${arch}-${platform}`
     const bfgPath = path.join(bfgContainingDir, bfgFilename)
     const isAlreadyDownloaded = await fileExists(bfgPath)
@@ -32,7 +37,7 @@ export async function downloadBfg(context: vscode.ExtensionContext): Promise<str
         return bfgPath
     }
 
-    const bfgURL = `https://github.com/sourcegraph/bfg/releases/download/${bfgVersion}/bfg-${arch}-${platform}.zip`
+    const bfgURL = `https://github.com/sourcegraph/bfg/releases/download/v${bfgVersion}/bfg-${arch}-${platform}.zip`
     try {
         await vscode.window.withProgress(
             {
@@ -42,26 +47,49 @@ export async function downloadBfg(context: vscode.ExtensionContext): Promise<str
             },
             async progress => {
                 progress.report({ message: 'Downloading bfg and extracting bfg' })
-
-                const bfgTmpDir = bfgPath + '.tmp'
-
-                await downloadFile(bfgURL, bfgTmpDir)
-                logDebug('BFG', `downloaded bfg to ${bfgTmpDir}`)
-
-                const tmpFile = path.join(bfgTmpDir, `bfg-${arch}-${platform}`)
-                await fspromises.chmod(tmpFile, 0o755)
-                await fspromises.rename(tmpFile, bfgPath)
-                await fspromises.rmdir(bfgTmpDir, { recursive: true })
-
-                logDebug('BFG', `extracted BFG to ${bfgPath}`)
+                const bfgZip = path.join(bfgContainingDir, 'bfg.zip')
+                await downloadBfgBinary(bfgURL, bfgZip)
+                await unzipBfg(bfgZip, bfgPath)
+                await fspromises.chmod(bfgPath, 0o755)
+                logDebug('BFG', `downloaded bfg to ${bfgPath}`)
             }
         )
         void removeOldBfgBinaries(bfgContainingDir, bfgFilename)
     } catch (error) {
-        void vscode.window.showErrorMessage(`Failed to download bfg: ${error}`)
+        void vscode.window.showErrorMessage(`Failed to download bfg from URL ${bfgURL}: ${error}`)
         return null
     }
     return bfgPath
+}
+
+async function unzipBfg(zipFile: string, destination: string): Promise<void> {
+    const zip = fs.createReadStream(zipFile).pipe(unzipper.Parse({ forceStream: true }))
+    for await (const entry of zip) {
+        const fileName = entry.path
+        if (fileName === path.basename(destination)) {
+            entry.pipe(fs.createWriteStream(destination))
+        } else {
+            entry.autodrain()
+        }
+    }
+}
+
+async function downloadBfgBinary(url: string, destination: string): Promise<void> {
+    console.log({ url, destination })
+    const response = await axios({
+        url,
+        method: 'GET',
+        responseType: 'stream',
+        maxRedirects: 10,
+    })
+
+    const stream = fs.createWriteStream(destination)
+    response.data.pipe(stream)
+
+    await new Promise((resolve, reject) => {
+        stream.on('finish', resolve)
+        stream.on('error', reject)
+    })
 }
 
 async function removeOldBfgBinaries(containingDir: string, currentBfgPath: string): Promise<void> {
