@@ -511,8 +511,8 @@ importers:
         specifier: ^0.0.44
         version: 0.0.44
       '@vscode/vsce':
-        specifier: ^2.19.0
-        version: 2.19.0
+        specifier: ^2.21.1
+        version: 2.21.1
       cody-icons-font:
         specifier: workspace:^
         version: link:../lib/icons
@@ -6915,8 +6915,8 @@ packages:
       - supports-color
     dev: true
 
-  /@vscode/vsce@2.19.0:
-    resolution: {integrity: sha512-dAlILxC5ggOutcvJY24jxz913wimGiUrHaPkk16Gm9/PGFbz1YezWtrXsTKUtJws4fIlpX2UIlVlVESWq8lkfQ==}
+  /@vscode/vsce@2.21.1:
+    resolution: {integrity: sha512-f45/aT+HTubfCU2oC7IaWnH9NjOWp668ML002QiFObFRVUCoLtcwepp9mmql/ArFUy+HCHp54Xrq4koTcOD6TA==}
     engines: {node: '>= 14'}
     hasBin: true
     dependencies:
@@ -6933,7 +6933,7 @@ packages:
       minimatch: 3.1.2
       parse-semver: 1.1.1
       read: 1.0.7
-      semver: 5.7.1
+      semver: 7.5.4
       tmp: 0.2.1
       typed-rest-client: 1.8.9
       url-join: 4.0.1
@@ -14039,7 +14039,7 @@ packages:
     engines: {node: '>= 14'}
     hasBin: true
     dependencies:
-      '@vscode/vsce': 2.19.0
+      '@vscode/vsce': 2.21.1
       commander: 6.2.1
       follow-redirects: 1.15.1
       is-ci: 2.0.0
