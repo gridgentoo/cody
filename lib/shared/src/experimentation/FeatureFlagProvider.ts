@@ -15,6 +15,7 @@ export enum FeatureFlag {
     CodyAutocompleteLlamaCode7B = 'cody-autocomplete-default-llama-code-7b',
     CodyAutocompleteLlamaCode13B = 'cody-autocomplete-default-llama-code-13b',
     CodyAutocompleteGraphContext = 'cody-autocomplete-graph-context',
+    CodyAutocompleteGraphContextBfg = 'cody-autocomplete-graph-context-bfg',
     CodyAutocompleteMinimumLatency = 'cody-autocomplete-minimum-latency',
     CodyAutocompleteCompleteSuggestWidgetSelection = 'cody-autocomplete-complete-suggest-widget-selection',
 }

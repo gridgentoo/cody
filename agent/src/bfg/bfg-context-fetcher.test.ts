@@ -62,7 +62,7 @@ describe('BfgContextFetcher', () => {
         const extensionContext: Partial<vscode.ExtensionContext> = {
             globalStorageUri: vscode.Uri.from({ scheme: 'file', path: tmpDir }),
         }
-        const bfg = await createBfgContextFetcher(extensionContext as vscode.ExtensionContext, () => gitdirUri)
+        const bfg = createBfgContextFetcher(extensionContext as vscode.ExtensionContext, () => gitdirUri)
         agent.workspace.addDocument({
             filePath,
             content: content.replace(CURSOR, ''),

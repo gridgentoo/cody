@@ -49,23 +49,21 @@ export async function createInlineCompletionItemProvider(
 
     const disposables: vscode.Disposable[] = []
 
-    const [providerConfig, lspGraphContextFlag, completeSuggestWidgetSelectionFlag] = await Promise.all([
-        createProviderConfig(config, client, featureFlagProvider, authProvider.getAuthStatus().configOverwrites),
-        featureFlagProvider?.evaluateFeatureFlag(FeatureFlag.CodyAutocompleteGraphContext),
-        featureFlagProvider?.evaluateFeatureFlag(FeatureFlag.CodyAutocompleteCompleteSuggestWidgetSelection),
-    ])
+    const [providerConfig, lspGraphContextFlag, bfgGraphContextFlag, completeSuggestWidgetSelectionFlag] =
+        await Promise.all([
+            createProviderConfig(config, client, featureFlagProvider, authProvider.getAuthStatus().configOverwrites),
+            featureFlagProvider?.evaluateFeatureFlag(FeatureFlag.CodyAutocompleteGraphContext),
+            featureFlagProvider?.evaluateFeatureFlag(FeatureFlag.CodyAutocompleteGraphContextBfg),
+            featureFlagProvider?.evaluateFeatureFlag(FeatureFlag.CodyAutocompleteCompleteSuggestWidgetSelection),
+        ])
     if (providerConfig) {
         const history = new VSCodeDocumentHistory()
-        const isLspGraphContextEnabled =
-            config.autocompleteExperimentalGraphContext === 'lsp' ||
-            // For backwards compatibility, treat true value as 'lsp'
-            config.autocompleteExperimentalGraphContext === true ||
-            lspGraphContextFlag
-        const graphContextFetcher = isLspGraphContextEnabled
-            ? GraphSectionObserver.createInstance()
-            : config.autocompleteExperimentalGraphContext === 'bfg'
-            ? await createBfgContextFetcher(context, gitDirectoryUri)
-            : undefined
+        const graphContextFetcher =
+            config.autocompleteExperimentalGraphContext === 'lsp' || lspGraphContextFlag
+                ? GraphSectionObserver.createInstance()
+                : config.autocompleteExperimentalGraphContext === 'bfg' || bfgGraphContextFlag
+                ? createBfgContextFetcher(context, gitDirectoryUri)
+                : undefined
 
         const completionsProvider = new InlineCompletionItemProvider({
             providerConfig,

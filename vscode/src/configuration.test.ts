@@ -37,7 +37,7 @@ describe('getConfiguration', () => {
             autocompleteAdvancedAccessToken: null,
             autocompleteExperimentalCompleteSuggestWidgetSelection: false,
             autocompleteExperimentalSyntacticPostProcessing: true,
-            autocompleteExperimentalGraphContext: 'none',
+            autocompleteExperimentalGraphContext: null,
         })
     })
 

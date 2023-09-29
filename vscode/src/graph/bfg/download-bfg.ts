@@ -6,7 +6,7 @@ import axios from 'axios'
 import * as unzipper from 'unzipper'
 import * as vscode from 'vscode'
 
-import { fileExists, getOSArch } from '../../local-context/download-symf'
+import { fileExists } from '../../local-context/download-symf'
 import { logDebug } from '../../log'
 import { getOSArch } from '../../os'
 

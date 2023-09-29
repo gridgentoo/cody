@@ -233,10 +233,10 @@ export class MessageHandler {
     public isAlive(): boolean {
         return this.alive
     }
-    public die(): void {
+    public exit(): void {
         this.alive = false
         for (const { reject } of this.responseHandlers.values()) {
-            reject(new Error('Process died'))
+            reject(new Error('Process has exited'))
         }
     }
 
