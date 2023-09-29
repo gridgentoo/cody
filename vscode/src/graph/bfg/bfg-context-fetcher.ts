@@ -13,76 +13,62 @@ export function createBfgContextFetcher(
     gitDirectoryUri: (uri: vscode.Uri) => vscode.Uri | undefined
 ): GraphContextFetcher {
     const isTesting = process.env.CODY_TESTING === 'true'
-    let isInitialized = false
-    const bfg = new MessageHandler()
-
     // We lazily load BFG to allow the Cody extension finish activation as
     // quickly as possible.
-    let initialize: Promise<boolean> | undefined
-    const doInitialize = async (): Promise<boolean> => {
-        if (isInitialized) {
-            return true && bfg.isAlive()
-        }
-        logDebug('BFG', 'Creating BFG client')
-        const codyrpc = await downloadBfg(context)
-        if (!codyrpc) {
-            if (isTesting) {
-                throw new Error('BFG: failed to download binary during testing')
+    const loadedBFG = new Promise<MessageHandler>(async (resolve, reject) => {
+        try {
+            const bfg = new MessageHandler()
+            const codyrpc = await downloadBfg(context)
+            if (!codyrpc) {
+                logDebug(
+                    'BFG',
+                    'Failed to download BFG binary. To fix this problem, set the "cody.experimental.bfg.path" configuration to the path of your BFG binary'
+                )
+                reject(Error('BFG: failed to download binary during testing'))
+                return
             }
-            logDebug(
-                'BFG',
-                'Failed to download BFG binary. To fix this problem, set the "cody.experimental.bfg.path" configuration to the path of your BFG binary'
-            )
-            return false
+            const child = child_process.spawn(codyrpc, { stdio: 'pipe' })
+            child.stderr.on('data', chunk => {
+                if (isTesting) console.log(chunk.toString())
+                else logDebug('BFG', 'stderr output', chunk.toString())
+            })
+            child.on('exit', () => {
+                bfg.exit()
+            })
+            child.stderr.pipe(process.stdout)
+            child.stdout.pipe(bfg.messageDecoder)
+            bfg.messageEncoder.pipe(child.stdin)
+            await bfg.request('bfg/initialize', { clientName: 'vscode' })
+            resolve(bfg)
+        } catch (error) {
+            reject(error)
         }
-        const child = child_process.spawn(codyrpc, { stdio: 'pipe' })
-        child.stderr.on('data', chunk => {
-            if (isTesting) console.log(chunk.toString())
-            else logDebug('BFG', 'stderr output', chunk.toString())
-        })
-        child.on('exit', () => {
-            bfg.exit()
-        })
-        child.stderr.pipe(process.stdout)
-        child.stdout.pipe(bfg.messageDecoder)
-        isInitialized = true
-        bfg.messageEncoder.pipe(child.stdin)
-        await bfg.request('bfg/initialize', { clientName: 'vscode' })
-        return true
-    }
+    })
+    loadedBFG.then(
+        () => {},
+        error => logDebug('BFG', 'failed to initialize', error)
+    )
 
-    let latestRepoIndexing = Promise.resolve()
+    let latestRepoIndexing: Promise<void[]> = Promise.resolve([])
     const indexedGitDirectories = new Set<string>()
-    const didOpenDocumentUri = (uri: vscode.Uri): void => {
+    const didOpenDocumentUri = async (uri: vscode.Uri): Promise<void> => {
         const gitdir = gitDirectoryUri(uri)?.toString()
         if (gitdir && !indexedGitDirectories.has(gitdir)) {
             indexedGitDirectories.add(gitdir)
+            const bfg = await loadedBFG
             const indexingStartTime = Date.now()
-            latestRepoIndexing = bfg.request('bfg/gitRevision/didChange', { gitDirectoryUri: gitdir })
-            latestRepoIndexing.then(
-                () => logDebug('BFG', `indexing time ${Date.now() - indexingStartTime}ms`),
-                error =>
-                    logDebug(
-                        'BFG',
-                        `indexing git repo ${gitdir} failed due to ${error}`,
-                        error instanceof Error ? error.stack : undefined
-                    )
-            )
+            await bfg.request('bfg/gitRevision/didChange', { gitDirectoryUri: gitdir })
+            logDebug('BFG', `indexing time ${Date.now() - indexingStartTime}ms`)
         }
     }
-    for (const textEditor of vscode.window.visibleTextEditors) {
-        didOpenDocumentUri(textEditor.document.uri)
-    }
-    vscode.workspace.onDidOpenTextDocument(document => {
-        didOpenDocumentUri(document.uri)
-    })
+    latestRepoIndexing = Promise.all(
+        vscode.window.visibleTextEditors.map(textEditor => didOpenDocumentUri(textEditor.document.uri))
+    )
+    vscode.workspace.onDidOpenTextDocument(document => didOpenDocumentUri(document.uri))
     return {
         getContextAtPosition: async (document, position, _unusedMaxChars, contextRange) => {
-            if (!initialize) {
-                initialize = doInitialize()
-            }
-            const isAlive = await initialize
-            if (!isAlive) {
+            const bfg = await loadedBFG
+            if (!bfg.isAlive()) {
                 logDebug('BFG', 'BFG is not alive')
                 return []
             }
@@ -99,7 +85,10 @@ export function createBfgContextFetcher(
 
             return [...responses.symbols, ...responses.files]
         },
-        messageHandler: bfg,
-        dispose: () => bfg.request('bfg/shutdown', null),
+        dispose: () =>
+            loadedBFG.then(
+                bfg => bfg.request('bfg/shutdown', null),
+                () => {}
+            ),
     }
 }

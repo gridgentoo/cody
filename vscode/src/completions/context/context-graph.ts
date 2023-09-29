@@ -13,7 +13,6 @@ export interface GraphContextFetcher extends vscode.Disposable {
         maxChars: number,
         contextRange?: vscode.Range
     ): Promise<ContextSnippet[]>
-    messageHandler?: MessageHandler
 }
 
 export const emptyGraphContextFetcher: GraphContextFetcher = {

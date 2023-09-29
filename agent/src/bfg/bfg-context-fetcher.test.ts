@@ -7,6 +7,7 @@ import * as rimraf from 'rimraf'
 import { afterAll, assert, beforeAll, describe, expect, it } from 'vitest'
 import * as vscode from 'vscode'
 
+import { initTreeSitterParser } from '../../../vscode/src/completions/test-helpers'
 import { createBfgContextFetcher } from '../../../vscode/src/graph/bfg/bfg-context-fetcher'
 import { Agent, initializeVscodeExtension } from '../agent'
 import { MessageHandler } from '../jsonrpc-alias'
@@ -23,8 +24,9 @@ const shouldCreateGitDir = !fs.existsSync(gitdir)
 
 describe('BfgContextFetcher', () => {
     const tmpDir = fs.mkdtempSync(path.join(os.tmpdir(), 'bfg-'))
-    beforeAll(() => {
+    beforeAll(async () => {
         process.env.CODY_TESTING = 'true'
+        await initTreeSitterParser()
         initializeVscodeExtension()
         if (shouldCreateGitDir) {
             child_process.execSync('git init', { cwd: dir })
@@ -62,12 +64,12 @@ describe('BfgContextFetcher', () => {
         const extensionContext: Partial<vscode.ExtensionContext> = {
             globalStorageUri: vscode.Uri.from({ scheme: 'file', path: tmpDir }),
         }
-        const bfg = createBfgContextFetcher(extensionContext as vscode.ExtensionContext, () => gitdirUri)
         agent.workspace.addDocument({
             filePath,
             content: content.replace(CURSOR, ''),
         })
-        await bfg.messageHandler?.request('bfg/gitRevision/didChange', { gitDirectoryUri: gitdirUri.toString() })
+
+        const bfg = createBfgContextFetcher(extensionContext as vscode.ExtensionContext, () => gitdirUri)
 
         const doc = agent.workspace.agentTextDocument({ filePath })
         assert(doc.getText().length > 0)
@@ -75,7 +77,7 @@ describe('BfgContextFetcher', () => {
         assert(offset >= 0, content)
         const position = doc.positionAt(offset)
         const maxChars = 1_000
-        const context = await bfg.getContextAtPosition(doc, position, maxChars, undefined)
-        expect(context).toHaveLength(2)
+
+        expect(await bfg.getContextAtPosition(doc, position, maxChars, undefined)).toHaveLength(2)
     })
 })
