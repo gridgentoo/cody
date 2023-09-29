@@ -27,8 +27,8 @@ function initializeVscodeExtension(): void {
         environmentVariableCollection: {} as any,
         extension: {} as any,
         extensionMode: {} as any,
-        extensionPath: {} as any,
-        extensionUri: {} as any,
+        extensionPath: 'foobar',
+        extensionUri: vscode.Uri.from({ scheme: 'file', path: 'foobar' }),
         globalState: {
             keys: () => [],
             get: () => undefined,
