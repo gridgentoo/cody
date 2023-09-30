@@ -224,19 +224,23 @@ describe('extractDefinitionContexts', () => {
                 [testFile3Uri.fsPath, testFile3.split('\n').slice(1)], // bonk
             ]),
             (uri: URI): Promise<vscode.Range[]> => {
-                switch (uri.fsPath) {
-                    case testFile1Uri.fsPath:
+                // Compare string URIs. Using gsPath won't work on Windows
+                // right now because the shim fsPath is not correct for Windows.
+                // [uri] is a shim'd URI, but [testFile1Uri] etc. are real
+                // URIs.
+                switch (uri.toString()) {
+                    case testFile1Uri.toString():
                         return Promise.resolve([
                             new vscode.Range(2, 0, 8, 1), // foo
                             new vscode.Range(10, 0, 16, 1), // bar
                         ])
 
-                    case testFile2Uri.fsPath:
+                    case testFile2Uri.toString():
                         return Promise.resolve([
                             new vscode.Range(3, 0, 3, 20), // baz
                         ])
 
-                    case testFile3Uri.fsPath:
+                    case testFile3Uri.toString():
                         return Promise.resolve([
                             new vscode.Range(4, 0, 7, 67), // bonk
                         ])

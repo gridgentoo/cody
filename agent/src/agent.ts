@@ -1,7 +1,6 @@
 import path from 'path'
 
 import * as vscode from 'vscode'
-import { URI } from 'vscode-uri'
 
 import { Client, createClient } from '@sourcegraph/cody-shared/src/chat/client'
 import { registeredRecipes } from '@sourcegraph/cody-shared/src/chat/recipes/agent-recipes'
@@ -78,8 +77,8 @@ export class Agent extends MessageHandler {
             )
             initializeVscodeExtension()
             this.workspace.workspaceRootUri = client.workspaceRootUri
-                ? URI.parse(client.workspaceRootUri)
-                : URI.from({ scheme: 'file', path: client.workspaceRootPath })
+                ? vscode_shim.Uri.parse(client.workspaceRootUri)
+                : vscode_shim.Uri.from({ scheme: 'file', path: client.workspaceRootPath })
 
             if (client.extensionConfiguration) {
                 this.setClient(client.extensionConfiguration)
