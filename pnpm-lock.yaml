@@ -226,8 +226,8 @@ importers:
         specifier: ^0.5.8
         version: 0.5.8
       '@azure/openai':
-        specifier: 1.0.0-beta.5
-        version: 1.0.0-beta.5
+        specifier: 1.0.0-beta.6
+        version: 1.0.0-beta.6
       '@sourcegraph/cody-shared':
         specifier: workspace:*
         version: link:../lib/shared
@@ -666,6 +666,13 @@ packages:
       - supports-color
     dev: false
 
+  /@azure/core-sse@1.0.0:
+    resolution: {integrity: sha512-UhsxgWrQaIh6rJynDCNHYDbJ1b3bmqaOex4so8+h0UL4mxyb/og2FHoDJPzgLlvtM4b6/d/klBpwltsxHaZgNA==}
+    engines: {node: '>=14.0.0'}
+    dependencies:
+      tslib: 2.1.0
+    dev: false
+
   /@azure/core-tracing@1.0.1:
     resolution: {integrity: sha512-I5CGMoLtX+pI17ZdiFJZgxMJApsK6jjfm85hpgp3oazCdq5Wxgh4wMr7ge/TTWW1B5WBuvIOI1fMU/FrOAMKrw==}
     engines: {node: '>=12.0.0'}
@@ -688,15 +695,18 @@ packages:
       tslib: 2.1.0
     dev: false
 
-  /@azure/openai@1.0.0-beta.5:
-    resolution: {integrity: sha512-Qjb6eXun6OUGwbHMRYtmjojn8wZf5ATGQHFzxPc+/dWFeLdSj5ahs/yWRAgqff3oL6GmgQFhjCPhAnAbVv5Q3w==}
+  /@azure/openai@1.0.0-beta.6:
+    resolution: {integrity: sha512-RyM6Gi5AQyhOU/dDj2yC6cVQun6Z2cK+Z5wHpxR7tI3S980R9xhaqRtCGYPxwxlqCW34wabQcPPLthgAlYyRHA==}
     engines: {node: '>=14.0.0'}
     dependencies:
       '@azure-rest/core-client': 1.1.4
       '@azure/core-auth': 1.5.0
       '@azure/core-lro': 2.5.4
       '@azure/core-rest-pipeline': 1.12.0
+      '@azure/core-sse': 1.0.0
       '@azure/logger': 1.0.4
+      form-data-encoder: 1.7.2
+      formdata-node: 4.4.1
       tslib: 2.1.0
     transitivePeerDependencies:
       - supports-color
