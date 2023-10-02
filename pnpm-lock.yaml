@@ -122,7 +122,7 @@ importers:
         version: 3.0.7
     devDependencies:
       '@types/vscode':
-        specifier: ^1.80.0
+        specifier: 1.80.0
         version: 1.80.0
       pkg:
         specifier: ^5.8.1
@@ -147,7 +147,7 @@ importers:
         version: 1.0.8
     devDependencies:
       '@types/prompts':
-        specifier: ^2.4.4
+        specifier: 2.4.4
         version: 2.4.4
 
   completions-review-tool:
@@ -196,16 +196,16 @@ importers:
         specifier: ^1.17.0
         version: 1.17.0(@types/node@20.4.0)(ts-node@10.9.1)
       '@types/compression':
-        specifier: ^1.7.2
+        specifier: 1.7.2
         version: 1.7.2
       '@types/marked':
-        specifier: ^5.0.0
+        specifier: 5.0.0
         version: 5.0.0
       '@types/morgan':
-        specifier: ^1.9.4
+        specifier: 1.9.4
         version: 1.9.4
       '@types/react-table':
-        specifier: ^7.7.14
+        specifier: 7.7.14
         version: 7.7.14
       cross-env:
         specifier: ^7.0.3
@@ -287,22 +287,22 @@ importers:
         version: 3.4.4
     devDependencies:
       '@types/dompurify':
-        specifier: ^3.0.2
+        specifier: 3.0.2
         version: 3.0.2
       '@types/highlight.js':
-        specifier: ^9.12.4
+        specifier: 9.12.4
         version: 9.12.4
       '@types/isomorphic-fetch':
-        specifier: ^0.0.36
+        specifier: 0.0.36
         version: 0.0.36
       '@types/lodash':
-        specifier: ^4.14.195
+        specifier: 4.14.195
         version: 4.14.195
       '@types/marked':
-        specifier: ^5.0.0
+        specifier: 5.0.0
         version: 5.0.0
       '@types/vscode':
-        specifier: ^1.80.0
+        specifier: 1.80.0
         version: 1.80.0
 
   lib/ui:
@@ -354,7 +354,7 @@ importers:
         version: 4.3.1
     devDependencies:
       '@types/lodash':
-        specifier: ^4.14.195
+        specifier: 4.14.195
         version: 4.14.195
 
   vscode:
@@ -381,7 +381,7 @@ importers:
         specifier: workspace:*
         version: link:../lib/ui
       '@types/stream-json':
-        specifier: ^1.7.3
+        specifier: 1.7.3
         version: 1.7.3
       '@vscode/codicons':
         specifier: ^0.0.29
@@ -463,46 +463,46 @@ importers:
         specifier: ^1.33.0
         version: 1.33.0
       '@types/axios':
-        specifier: ^0.14.0
+        specifier: 0.14.0
         version: 0.14.0
       '@types/dedent':
-        specifier: ^0.7.0
+        specifier: 0.7.0
         version: 0.7.0
       '@types/express':
-        specifier: ^4.17.17
+        specifier: 4.17.17
         version: 4.17.17
       '@types/glob':
-        specifier: ^8.0.0
+        specifier: 8.1.0
         version: 8.1.0
       '@types/isomorphic-fetch':
-        specifier: ^0.0.36
+        specifier: 0.0.36
         version: 0.0.36
       '@types/lodash':
-        specifier: ^4.14.195
+        specifier: 4.14.195
         version: 4.14.195
       '@types/mocha':
-        specifier: ^10.0.1
+        specifier: 10.0.1
         version: 10.0.1
       '@types/mock-require':
-        specifier: ^2.0.1
+        specifier: 2.0.1
         version: 2.0.1
       '@types/progress':
-        specifier: ^2.0.5
+        specifier: 2.0.5
         version: 2.0.5
       '@types/semver':
-        specifier: ^7.5.0
+        specifier: 7.5.0
         version: 7.5.0
       '@types/unzipper':
-        specifier: ^0.10.7
+        specifier: 0.10.7
         version: 0.10.7
       '@types/uuid':
-        specifier: ^9.0.2
+        specifier: 9.0.2
         version: 9.0.2
       '@types/vscode':
-        specifier: ^1.79.0
+        specifier: 1.80.0
         version: 1.80.0
       '@types/vscode-webview':
-        specifier: ^1.57.1
+        specifier: 1.57.1
         version: 1.57.1
       '@vscode/test-electron':
         specifier: ^2.3.2
@@ -560,7 +560,7 @@ importers:
         version: 4.17.21
     devDependencies:
       '@types/lodash':
-        specifier: ^4.14.195
+        specifier: 4.14.195
         version: 4.14.195
 
 packages:
@@ -6013,7 +6013,7 @@ packages:
     resolution: {integrity: sha512-ALYone6pm6QmwZoAgeyNksccT9Q4AWZQ6PvfwR37GT6r6FWUPguq6sUmNGSMV2Wr761oQoBxwGGa6DR5o1DC9g==}
     dependencies:
       '@types/connect': 3.4.32
-      '@types/node': 20.5.7
+      '@types/node': 20.4.0
 
   /@types/btoa-lite@1.0.0:
     resolution: {integrity: sha512-wJsiX1tosQ+J5+bY5LrSahHxr2wT+uME5UDwdN1kg4frt40euqA+wzECkmq4t5QbveHiJepfdThgQrPw6KiSlg==}
@@ -6110,7 +6110,7 @@ packages:
   /@types/express-serve-static-core@4.17.35:
     resolution: {integrity: sha512-wALWQwrgiB2AWTT91CB62b6Yt0sNHpznUXeZEcnPU3DRdlDIz74x8Qg1UUYKSVFi+va5vKOLYRBI1bRKiLLKIg==}
     dependencies:
-      '@types/node': 20.5.7
+      '@types/node': 20.4.0
       '@types/qs': 6.9.6
       '@types/range-parser': 1.2.2
       '@types/send': 0.17.1
@@ -6144,7 +6144,7 @@ packages:
     resolution: {integrity: sha512-IO+MJPVhoqz+28h1qLAcBEH2+xHMK6MTyHJc7MTnnYb6wsoLR29POVGJ7LycmVXIqyy/4/2ShP5sUwTXuOwb/w==}
     dependencies:
       '@types/minimatch': 5.1.2
-      '@types/node': 20.5.7
+      '@types/node': 20.4.0
     dev: true
 
   /@types/graceful-fs@4.1.5:
@@ -6281,7 +6281,7 @@ packages:
   /@types/mock-require@2.0.1:
     resolution: {integrity: sha512-O7U5DVGboY/Crueb5/huUCIRjKtRVRaLmRDbZJBlDQgJn966z3aiFDN+6AtYviu2ExwMkl34LjT/IiC0OPtKuQ==}
     dependencies:
-      '@types/node': 20.5.7
+      '@types/node': 20.4.0
     dev: true
 
   /@types/morgan@1.9.4:
@@ -6316,6 +6316,7 @@ packages:
 
   /@types/node@20.5.7:
     resolution: {integrity: sha512-dP7f3LdZIysZnmvP3ANJYTSwg+wLLl8p7RqniVlV7j+oXSXAbt9h0WIBFmJy5inWZoX9wZN6eXx+YXd9Rh3RBA==}
+    dev: true
 
   /@types/normalize-package-data@2.4.0:
     resolution: {integrity: sha512-f5j5b/Gf71L+dbqxIpQ4Z2WlmI/mPJ0fOkGGmFgtb6sAu97EPczzbS3/tJKxmcYDj55OX6ssqwDAWOHIYDRDGA==}
@@ -6340,7 +6341,7 @@ packages:
   /@types/progress@2.0.5:
     resolution: {integrity: sha512-ZYYVc/kSMkhH9W/4dNK/sLNra3cnkfT2nJyOAIDY+C2u6w72wa0s1aXAezVtbTsnN8HID1uhXCrLwDE2ZXpplg==}
     dependencies:
-      '@types/node': 20.5.7
+      '@types/node': 20.4.0
     dev: true
 
   /@types/promise.allsettled@1.0.3:
@@ -6373,15 +6374,7 @@ packages:
   /@types/react-table@7.7.14:
     resolution: {integrity: sha512-TYrv7onCiakaG1uAu/UpQ9FojNEt/4/ht87EgJQaEGFoWV606ZLWUZAcUHzMxgc3v1mywP1cDyz3qB4ho3hWOw==}
     dependencies:
-      '@types/react': 18.2.18
-    dev: true
-
-  /@types/react@18.2.18:
-    resolution: {integrity: sha512-da4NTSeBv/P34xoZPhtcLkmZuJ+oYaCxHmyHzwaDQo9RQPBeXV+06gEk2FpqEcsX9XrnNLvRpVh6bdavDSjtiQ==}
-    dependencies:
-      '@types/prop-types': 15.7.5
-      '@types/scheduler': 0.16.2
-      csstype: 3.1.0
+      '@types/react': 18.2.21
     dev: true
 
   /@types/react@18.2.21:
@@ -6404,7 +6397,7 @@ packages:
   /@types/rimraf@3.0.2:
     resolution: {integrity: sha512-F3OznnSLAUxFrCEu/L5PY8+ny8DtcFRjx7fZZ9bycvXRi3KPTRS9HOitGZwvPg0juRhXFWIeKX58cnX5YqLohQ==}
     dependencies:
-      '@types/glob': 7.2.0
+      '@types/glob': 8.1.0
       '@types/node': 20.4.0
     dev: true
 
@@ -6426,7 +6419,7 @@ packages:
     resolution: {integrity: sha512-z5xyF6uh8CbjAu9760KDKsH2FcDxZ2tFCsA4HIMWE6IkiYMXfVoa+4f9KX+FN0ZLsaMw1WNG2ETLA6N+/YA+cg==}
     dependencies:
       '@types/mime': 2.0.0
-      '@types/node': 20.5.7
+      '@types/node': 20.4.0
 
   /@types/stream-chain@2.0.1:
     resolution: {integrity: sha512-D+Id9XpcBpampptkegH7WMsEk6fUdf9LlCIX7UhLydILsqDin4L0QT7ryJR0oycwC7OqohIzdfcMHVZ34ezNGg==}
@@ -6437,7 +6430,7 @@ packages:
   /@types/stream-json@1.7.3:
     resolution: {integrity: sha512-Jqsyq5VPOTWorvEmzWhEWH5tJnHA+bB8vt/Zzb11vSDj8esfSHDMj2rbVjP0mfJQzl3YBJSXBBq08iiyaBK3KA==}
     dependencies:
-      '@types/node': 20.5.7
+      '@types/node': 20.4.0
       '@types/stream-chain': 2.0.1
     dev: false
 

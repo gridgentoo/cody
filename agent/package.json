@@ -28,6 +28,6 @@
   },
   "devDependencies": {
     "pkg": "^5.8.1",
-    "@types/vscode": "^1.80.0"
+    "@types/vscode": "1.80.0"
   }
 }
