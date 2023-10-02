@@ -112,7 +112,8 @@ function annotateSnippets(params: AnnotateSnippetsParams): string {
     const { code, language, captures, parser } = params
 
     const { delimiter, indent } = getCommentDelimiter(language)
-    const lines = code.split('\n').map(line => line.replaceAll(/\t/, ' '.repeat(4)))
+    // eslint-disable-next-line unicorn/prefer-string-replace-all
+    const lines = code.split('\n').map(line => line.replaceAll(/\t/g, ' '.repeat(4)))
     const caretPoint = getCaretPoint(lines, delimiter)
     if (!caretPoint) {
         throw new Error('No caret point found')
