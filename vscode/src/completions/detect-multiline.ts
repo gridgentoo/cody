@@ -33,15 +33,17 @@ export function detectMultiline(
 
         const queryEndPoint = {
             row: triggerPosition.line,
+            // Querying around one character after trigger position.
             column: triggerPosition.character + 1,
         }
 
-        const singleLineTriggers = documentQuerySDK?.queries.singlelineTriggers.getEnclosingTrigger(
-            parseTreeCache?.tree.rootNode,
+        const singleLineTriggers = documentQuerySDK.queries.singlelineTriggers.getEnclosingTrigger(
+            parseTreeCache.tree.rootNode,
             queryStartPoint,
             queryEndPoint
         )
 
+        // Don't trigger multiline completion if single line trigger is found.
         if (singleLineTriggers.length > 0) {
             return null
         }
