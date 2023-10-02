@@ -11,7 +11,6 @@ const JS_BLOCKS_QUERY = dedent`
     (if_statement)] @parents
 `
 
-// Figure out if it's possible to resuse the #match part of the query on the query level.
 const MULTILINE_TRIGGERS_QUERY = dedent`
     (function_declaration (statement_block ("{") @block_start)) @trigger
     (function (statement_block ("{") @block_start)) @trigger
