@@ -120,14 +120,14 @@ function annotateSnippets(params: AnnotateSnippetsParams): string {
 
     const cursorPositionLine = { index: -1, line: '' }
     const linesWithoutCursorComment = lines.filter((line, index) => {
-        const shouldKeep = !isCursorPositionLine(line, delimiter)
+        const isCursorLine = isCursorPositionLine(line, delimiter)
 
-        if (!shouldKeep) {
+        if (isCursorLine) {
             cursorPositionLine.index = index
             cursorPositionLine.line = line
         }
 
-        return shouldKeep
+        return !isCursorLine
     })
 
     const tree = parser.parse(linesWithoutCursorComment.join('\n'))

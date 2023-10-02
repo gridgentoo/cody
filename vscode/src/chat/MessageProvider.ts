@@ -504,7 +504,7 @@ export abstract class MessageProvider extends MessageHandler implements vscode.D
                 return null
             }
             case /^\/edit(\s)?/.test(text):
-                await vscode.commands.executeCommand('cody.fixup.new', { instruction: text })
+                await vscode.commands.executeCommand('cody.command.edit-code', { instruction: text }, 'sidebar')
                 return null
             default: {
                 if (!this.editor.getActiveTextEditor()?.filePath) {
@@ -634,7 +634,9 @@ export abstract class MessageProvider extends MessageHandler implements vscode.D
                 (a, b) => +new Date(b[1].lastInteractionTimestamp) - +new Date(a[1].lastInteractionTimestamp)
             )
             const chatID = sortedChats[0][0]
-            await this.restoreSession(chatID)
+            if (chatID !== this.currentChatID) {
+                await this.restoreSession(chatID)
+            }
         }
     }
 

@@ -39,6 +39,7 @@ export class ChatViewProvider extends MessageProvider implements vscode.WebviewV
         const localAppWatcher = new LocalAppWatcher()
         this.disposables.push(localAppWatcher)
         this.disposables.push(localAppWatcher.onChange(appWatcher => this.appWatcherChanged(appWatcher)))
+        this.disposables.push(localAppWatcher.onTokenFileChange(tokenFile => this.tokenFileChanged(tokenFile)))
     }
 
     private async onDidReceiveMessage(message: WebviewMessage): Promise<void> {
@@ -183,9 +184,14 @@ export class ChatViewProvider extends MessageProvider implements vscode.WebviewV
         void this.simplifiedOnboardingReloadEmbeddingsState()
     }
 
+    private tokenFileChanged(file: vscode.Uri): void {
+        void this.authProvider.appDetector
+            .tryFetchAppJson(file)
+            .then(() => this.simplifiedOnboardingReloadEmbeddingsState())
+    }
+
     private async onHumanMessageSubmitted(text: string, submitType: 'user' | 'suggestion' | 'example'): Promise<void> {
-        logDebug('ChatViewProvider:onHumanMessageSubmitted', '', { verbose: { text, submitType } })
-        telemetryService.log('CodyVSCodeExtension:chat:submitted', { source: 'sidebar' })
+        logDebug('ChatViewProvider:onHumanMessageSubmitted', 'sidebar', { verbose: { text, submitType } })
         if (submitType === 'suggestion') {
             telemetryService.log('CodyVSCodeExtension:chatPredictions:used')
         }

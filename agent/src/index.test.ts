@@ -49,7 +49,6 @@ describe.each([
                 autocompleteAdvancedAccessToken: '',
                 autocompleteAdvancedServerEndpoint: '',
                 autocompleteAdvancedServerModel: null,
-                autocompleteAdvancedEmbeddings: true,
                 debug: false,
                 verboseDebug: false,
             },
@@ -146,6 +145,7 @@ describe.each([
         const completions = await client.request('autocomplete/execute', {
             filePath,
             position: { line: 1, character: 4 },
+            triggerKind: 'Automatic',
         })
         assert(completions.items.length > 0)
     })
